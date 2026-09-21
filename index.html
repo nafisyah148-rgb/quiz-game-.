@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Teknologi & AI - GitHub Pages Edition</title>
+    <!-- STREAMING_CHUNK:Styling layout and Cyberpunk UI themes -->
+    <style>
+        /* CSS Reset & Variable Design System */
+        :root {
+            --bg-color: #080c14;
+            --card-bg: rgba(15, 23, 42, 0.9);
+            --cyan-primary: #06b6d4;
+            --cyan-glow: rgba(6, 182, 212, 0.4);
+            --indigo-accent: #6366f1;
+            --emerald-success: #10b981;
+            --rose-danger: #f43f5e;
+            --amber-warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(56, 189, 248, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        }
+
+        /* Layout Container */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px var(--cyan-glow);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                padding: 2.5rem;
+            }
+        }
+
+        /* Header Style */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid var(--cyan-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan-primary);
+        }
+
+        .title-text h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .title-text p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .audio-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--cyan-primary);
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .audio-btn:hover {
+            background: rgba(6, 182, 212, 0.2);
+        }
+
+        /* Button Custom Cyberpunk */
+        .btn-cyber {
+            width: 100%;
+            padding: 0.9rem 1.5rem;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--indigo-accent));
+            color: #020617;
+            font-weight: 800;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-cyber:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.15);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+        }
+
+        .btn-cyber:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 2px solid var(--cyan-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan-primary);
+            box-shadow: 0 0 25px var(--cyan-glow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.8rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card .val {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .stat-card .lbl {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Quiz Screen Elements */
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .badge {
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid var(--cyan-primary);
+            color: var(--cyan-primary);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        .timer-box {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+            color: var(--cyan-primary);
+            font-weight: 700;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--cyan-primary), var(--indigo-accent));
+            transition: width 1s linear;
+        }
+
+        .question-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+            color: #ffffff;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-item {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 0.9rem 1rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-item:hover:not(:disabled) {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--cyan-primary);
+        }
+
+        .option-prefix {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--cyan-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        /* Option Feedback States */
+        .option-item.correct {
+            background: rgba(16, 185, 129, 0.2) !important;
+            border-color: var(--emerald-success) !important;
+            color: #a7f3d0 !important;
+        }
+
+        .option-item.correct .option-prefix {
+            background: var(--emerald-success);
+            color: #020617;
+        }
+
+        .option-item.wrong {
+            background: rgba(244, 63, 94, 0.2) !important;
+            border-color: var(--rose-danger) !important;
+            color: #fecdd3 !important;
+        }
+
+        .option-item.wrong .option-prefix {
+            background: var(--rose-danger);
+            color: #ffffff;
+        }
+
+        /* Feedback Explanation Box */
+        .explanation-box {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .explanation-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .explanation-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Result Screen */
+        .result-screen {
+            text-align: center;
+        }
+
+        .score-dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (min-width: 640px) {
+            .score-dashboard {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .dash-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem 0.5rem;
+        }
+
+        .dash-card .num {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 0.2rem;
+        }
+
+        /* Review Accordion List */
+        .review-list {
+            max-height: 240px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1rem 0 1.5rem;
+            padding-right: 0.25rem;
+            text-align: left;
+        }
+
+        .review-item {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .review-item.is-correct { border-left: 4px solid var(--emerald-success); }
+        .review-item.is-wrong { border-left: 4px solid var(--rose-danger); }
+        .review-item.is-timeout { border-left: 4px solid var(--amber-warning); }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER APPLIKASI -->
+        <header>
+            <div class="brand">
+                <div class="brand-icon">
+                    <!-- SVG Microchip Icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg>
+                </div>
+                <div class="title-text">
+                    <h1>KUIS TEKNOLOGI & AI</h1>
+                    <p>SYSTEM ENGINE v2.0</p>
+                </div>
+            </div>
+            <button class="audio-btn" onclick="toggleAudio()">
+                <svg id="audio-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span id="audio-label">AUDIO</span>
+            </button>
+        </header>
+
+        <!-- STREAMING_CHUNK: Start Screen Layout -->
+        <div id="start-screen" class="start-screen">
+            <div class="hero-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6a6 6 0 0 0-6 6c0 3 2.5 5 6 8 3.5-3 6-5 6-8a6 6 0 0 0-6-6z"/></svg>
+            </div>
+            <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">UJI PENGETAHUAN AI & TECH</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 500px; margin: 0 auto;">
+                Selesaikan 15 pertanyaan seputar kecerdasan buatan, perangkat keras, dan teknologi modern. Setiap soal berdurasi 20 detik!
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="val">15</div>
+                    <div class="lbl">TOTAL SOAL</div>
+                </div>
+                <div class="stat-card">
+                    <div class="val">20s</div>
+                    <div class="lbl">WAKTU/SOAL</div>
+                </div>
+                <div class="stat-card">
+                    <div class="val">150</div>
+                    <div class="lbl">SKOR MAKS</div>
+                </div>
+            </div>
+
+            <button class="btn-cyber" onclick="startGame()">
+                MULAI KUIS SEKARANG
+            </button>
+        </div>
+
+        <!-- STREAMING_CHUNK: Main Quiz Screen Layout -->
+        <div id="quiz-screen" class="hidden">
+            <div class="quiz-meta">
+                <span class="badge" id="question-badge">SOAL 1/15</span>
+                <div class="timer-box">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span id="timer-text">20</span>s
+                </div>
+            </div>
+
+            <div class="progress-bar-bg">
+                <div id="progress-fill" class="progress-bar-fill"></div>
+            </div>
+
+            <div class="question-title" id="question-text">
+                Teks pertanyaan akan dimuat di sini...
+            </div>
+
+            <div class="options-list" id="options-container">
+                <!-- Opsi Jawaban disuntikkan lewat JS -->
+            </div>
+
+            <div id="explanation-box" class="explanation-box hidden">
+                <div id="explanation-title" class="explanation-title">
+                    PENJELASAN
+                </div>
+                <div id="explanation-text" class="explanation-text">
+                    Detail pembahasan akan tampil di sini.
+                </div>
+            </div>
+
+            <button id="next-btn" class="btn-cyber hidden" onclick="nextQuestion()">
+                SOAL SELANJUTNYA
+            </button>
+        </div>
+
+        <!-- STREAMING_CHUNK: Result Screen Layout -->
+        <div id="result-screen" class="result-screen hidden">
+            <h2 style="font-size: 1.75rem; margin-bottom: 0.25rem;">EVALUASI SELESAI</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Berikut ringkasan performa kuis teknologi Anda:</p>
+
+            <div class="score-dashboard">
+                <div class="dash-card">
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">SKOR TOTAL</div>
+                    <div id="res-score" class="num" style="color: var(--cyan-primary);">0</div>
+                </div>
+                <div class="dash-card">
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">AKURASI</div>
+                    <div id="res-accuracy" class="num" style="color: var(--emerald-success);">0%</div>
+                </div>
+                <div class="dash-card">
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">SALAH</div>
+                    <div id="res-wrong" class="num" style="color: var(--rose-danger);">0</div>
+                </div>
+                <div class="dash-card">
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">TIMEOUT</div>
+                    <div id="res-timeout" class="num" style="color: var(--amber-warning);">0</div>
+                </div>
+            </div>
+
+            <div style="text-align: left; font-size: 0.85rem; font-weight: 700; color: var(--cyan-primary); margin-top: 1rem;">
+                REKAPITULASI PEMBAHASAN:
+            </div>
+
+            <div id="review-list" class="review-list">
+                <!-- List Pembahasan 1-15 -->
+            </div>
+
+            <button class="btn-cyber" onclick="resetGame()">
+                COBA KUIS LAGI
+            </button>
+        </div>
+    </div>
+
+    <!-- STREAMING_CHUNK: JavaScript App Logic & Web Audio API -->
+    <script>
+        // Data 15 Soal Sesuai Permintaan User
+        const questions = [
+            {
+                q: "Apa kepanjangan dari AI?",
+                options: ["Automatic Internet", "Artificial Intelligence", "Advanced Information", "Artificial Internet"],
+                correct: 1,
+                explanation: "AI singkatan dari Artificial Intelligence (Kecerdasan Buatan), teknologi yang memungkinkan mesin meniru kecerdasan manusia."
+            },
+            {
+                q: "Apa fungsi utama AI?",
+                options: [
+                    "Membuat perangkat selalu menyala",
+                    "Membantu komputer melakukan tugas yang membutuhkan kecerdasan manusia",
+                    "Menggantikan semua perangkat elektronik",
+                    "Mempercepat koneksi internet"
+                ],
+                correct: 1,
+                explanation: "Tujuan utama AI adalah memproses data dan memecahkan masalah kompleks seperti pola pikir kecerdasan manusia."
+            },
+            {
+                q: "Manakah yang merupakan contoh AI?",
+                options: ["Kalkulator biasa", "Lampu meja", "Chatbot yang dapat menjawab pertanyaan", "Buku tulis"],
+                correct: 2,
+                explanation: "Chatbot menggunakan pemrosesan bahasa alami (NLP) yang merupakan cabang dari AI untuk berinteraksi secara cerdas."
+            },
+            {
+                q: "Apa yang dimaksud dengan Machine Learning?",
+                options: [
+                    "Mesin yang dapat berjalan sendiri",
+                    "Teknologi yang memungkinkan komputer belajar dari data",
+                    "Cara memperbaiki mesin rusak",
+                    "Program untuk membuat komputer lebih besar"
+                ],
+                correct: 1,
+                explanation: "Machine Learning memungkinkan sistem belajar dan meningkatkan kemampuannya secara otomatis melalui pengalaman data tanpa diprogram ulang secara eksplisit."
+            },
+            {
+                q: "Perangkat yang digunakan untuk memasukkan teks ke komputer disebut...",
+                options
