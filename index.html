@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberTech Quiz Engine</title>
+    <style>
+        :root {
+            --bg-color: #060913;
+            --card-bg: rgba(13, 21, 38, 0.9);
+            --cyan-primary: #00f2fe;
+            --purple-accent: #9d4edd;
+            --neon-glow: rgba(0, 242, 254, 0.35);
+            --emerald-success: #10b981;
+            --rose-danger: #f43f5e;
+            --amber-warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(0, 242, 254, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(157, 78, 221, 0.12) 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px var(--neon-glow);
+            backdrop-filter: blur(16px);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .title-text h1 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--purple-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--cyan-primary);
+            margin-bottom: 0.4rem;
+            font-weight: 700;
+        }
+
+        .cyber-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .btn-cyber {
+            width: 100%;
+            padding: 0.9rem 1.5rem;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--purple-accent));
+            color: #030712;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        .btn-cyber:hover {
+            filter: brightness(1.15);
+            box-shadow: 0 0 15px var(--neon-glow);
+        }
+
+        .btn-wa {
+            background: #25D366 !important;
+            color: #ffffff !important;
+            margin-top: 0.75rem;
+        }
+
+        .btn-wa:hover {
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.5) !important;
+        }
+
+        .difficulty-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .diff-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            padding: 0.6rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .diff-btn.active {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--cyan-primary);
+            color: var(--cyan-primary);
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            background: rgba(0, 242, 254, 0.15);
+            border: 1px solid var(--cyan-primary);
+            color: var(--cyan-primary);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .timer-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+            color: var(--cyan-primary);
+            font-weight: 700;
+        }
+
+        .question-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-item {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover:not(:disabled) {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: var(--cyan-primary);
+        }
+
+        .option-item.correct {
+            background: rgba(16, 185, 129, 0.2) !important;
+            border-color: var(--emerald-success) !important;
+            color: #a7f3d0 !important;
+        }
+
+        .option-item.wrong {
+            background: rgba(244, 63, 94, 0.2) !important;
+            border-color: var(--rose-danger) !important;
+            color: #fecdd3 !important;
+        }
+
+        .explanation-box {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+        }
+
+        .score-dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .dash-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.9rem 0.5rem;
+            text-align: center;
+        }
+
+        .dash-card .num {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="title-text">
+                <h1>CYBERTECH QUIZ ENGINE</h1>
+                <p style="font-size: 0.7rem; color: var(--text-muted);">KUIS TEKNOLOGI & AI</p>
+            </div>
+        </header>
+
+        <!-- TAMPILAN AWAL -->
+        <div id="start-screen">
+            <div class="input-group">
+                <label for="player-name">NAMA PEMAIN</label>
+                <input type="text" id="player-name" class="cyber-input" placeholder="Masukkan nama Anda..." maxlength="15">
+            </div>
+
+            <div style="text-align: left; margin-bottom: 0.5rem;">
+                <label style="font-size: 0.8rem; color: var(--cyan-primary); font-weight: 700;">TINGKAT KESULITAN</label>
+            </div>
+            <div class="difficulty-selector">
+                <button class="diff-btn active" onclick="setDifficulty('easy', this)">MUDAH</button>
+                <button class="diff-btn" onclick="setDifficulty('medium', this)">SEDANG</button>
+                <button class="diff-btn" onclick="setDifficulty('hard', this)">SULIT</button>
+            </div>
+
+            <button class="btn-cyber" onclick="startGame()">MULAI PERMAINAN</button>
+        </div>
+
+        <!-- TAMPILAN KUIS -->
+        <div id="quiz-screen" class="hidden">
+            <div class="quiz-meta">
+                <span class="badge" id="question-badge">SOAL 1/5</span>
+                <div class="timer-box">Waktu: <span id="timer-text">20</span>s</div>
+            </div>
+
+            <div class="question-title" id="question-text">Teks Pertanyaan</div>
+            <div class="options-list" id="options-container"></div>
+
+            <div id="explanation-box" class="explanation-box hidden">
+                <div id="explanation-title" style="font-weight:700; margin-bottom:0.3rem;">PEMBAHASAN</div>
+                <div id="explanation-text" style="color:var(--text-muted);"></div>
+            </div>
+
+            <button id="next-btn" class="btn-cyber hidden" onclick="nextQuestion()">SOAL SELANJUTNYA</button>
+        </div>
+
+        <!-- TAMPILAN HASIL & SHARE WA -->
+        <div id="result-screen" class="hidden" style="text-align:center;">
+            <h2>EVALUASI SELESAI</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top:0.25rem;">Hasil skor Anda telah dihitung:</p>
+
+            <div class="score-dashboard">
+                <div class="dash-card">
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">TOTAL SKOR</div>
+                    <div id="res-score" class="num" style="color: var(--cyan-primary);">0</div>
+                </div>
+                <div class="dash-card">
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">AKURASI</div>
+                    <div id="res-accuracy" class="num" style="color: var(--emerald-success);">0%</div>
+                </div>
+            </div>
+
+            <button class="btn-cyber btn-wa" onclick="shareToWhatsApp()">
+                💬 BAGIKAN SKOR KE WHATSAPP
+            </button>
+
+            <button class="btn-cyber" onclick="resetGame()" style="margin-top:0.75rem; background: transparent; border: 1px solid var(--cyan-primary); color: var(--cyan-primary);">
+                MAIN LAGI
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questionBank = {
+            easy: [
+                { q: "Apa kepanjangan dari AI?", options: ["Automatic Internet", "Artificial Intelligence", "Advanced Info", "Artificial Internet"], correct: 1, exp: "AI adalah singkatan dari Artificial Intelligence (Kecerdasan Buatan)." },
+                { q: "Otak utama dari sebuah komputer adalah...", options: ["RAM", "Harddisk", "CPU", "Monitor"], correct: 2, exp: "CPU (Central Processing Unit) berfungsi mengolah data dan instruksi." },
+                { q: "Bahasa pemrograman populer untuk AI & Data Science adalah...", options: ["Python", "HTML", "CSS", "SQL"], correct: 0, exp: "Python sangat populer di bidang AI karena pustaka datanya yang kaya." },
+                { q: "Teknologi penyimpanan data daring lewat internet disebut...", options: ["Cloud Computing", "Local Storage", "Flashdisk", "RAM"], correct: 0, exp: "Cloud Computing memungkinkan akses data melalui jaringan internet." },
+                { q: "Sistem angka biner terdiri dari angka...", options: ["1 dan 2", "0 dan 1", "1 dan 10", "A dan B"], correct: 1, exp: "Sistem digital bekerja menggunakan biner berbasis 0 dan 1." }
+            ],
+            medium: [
+                { q: "Apa kepanjangan dari LLM dalam teknologi AI?", options: ["Large Language Model", "Linear Logic Machine", "Local Learning Method", "Logical Language Memory"], correct: 0, exp: "LLM adalah model AI berbasis pemrosesan bahasa alami." },
+                { q: "Serangan cyber yang membanjiri server dengan traffic palsu disebut...", options: ["DDoS", "SQL Injection", "Phishing", "Brute Force"], correct: 0, exp: "DDoS melumpuhkan server dengan membanjiri akses sekaligus." },
+                { q: "Protokol web yang menggunakan enkripsi aman adalah...", options: ["HTTPS", "HTTP", "FTP", "SMTP"], correct: 0, exp: "HTTPS menggunakan enkripsi SSL/TLS untuk keamanan data." },
+                { q: "Sistem kendali versi kode program yang paling populer adalah...", options: ["Git", "Docker", "Kubernetes", "Apache"], correct: 0, exp: "Git digunakan untuk melacak perubahan pada kode program." },
+                { q: "Database NoSQL berbasis dokumen yang populer adalah...", options: ["MongoDB", "MySQL", "PostgreSQL", "SQLite"], correct: 0, exp: "MongoDB menyimpan data tidak terstruktur dalam format JSON/BSON." }
+            ],
+            hard: [
+                { q: "Konsep RAG pada AI modern bertindak untuk...", options: ["Menghubungkan LLM ke database eksternal", "Melatih ulang model dari nol", "Memperkecil ukuran file AI", "Mengubah teks ke audio"], correct: 0, exp: "RAG (Retrieval-Augmented Generation) menghubungkan AI ke sumber data eksternal." },
+                { q: "Algoritma konsensus Ethereum saat ini berbasis...", options: ["Proof of Stake (PoS)", "Proof of Work (PoW)", "Delegated PoS", "Proof of Authority"], correct: 0, exp: "Ethereum menggunakan PoS setelah pembaruan 'The Merge'." },
+                { q: "Metode hemat memori untuk Fine-Tuning LLM adalah...", options: ["LoRA", "RLHF", "GAN", "BERT"], correct: 0, exp: "LoRA (Low-Rank Adaptation) melatih modul tambahan tanpa mengubah seluruh parameter asal." },
+                { q: "Format token otentikasi stateless yang umum di web adalah...", options: ["JWT", "Session Cookie", "OAuth 1.0", "XML"], correct: 0, exp: "JWT (JSON Web Token) digunakan untuk mentransfer klaim data terverifikasi." },
+                { q: "Istilah untuk keterikatan kuantum pada fisika komputasi adalah...", options: ["Quantum Entanglement", "Superposition", "Tunneling", "Annealing"], correct: 0, exp: "Quantum Entanglement menghubungkan pasangan partikel secara simultan." }
+            ]
+        };
+
+        let currentDifficulty = 'easy';
+        let activeQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let timer = null;
+        let timeLeft = 20;
+        let playerName = "CyberUser";
+        let correctCount = 0;
+
+        function setDifficulty(diff, btn) {
+            currentDifficulty = diff;
+            document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function startGame() {
+            const nameInput = document.getElementById('player-name').value.trim();
+            playerName = nameInput !== "" ? nameInput : "CyberUser";
+
+            activeQuestions = [...questionBank[currentDifficulty]].sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+            score = 0;
+            correctCount = 0;
+
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            clearInterval(timer);
+            timeLeft = 20;
+
+            const q = activeQuestions[currentIndex];
+            document.getElementById('question-badge').textContent = `SOAL ${currentIndex + 1}/${activeQuestions.length}`;
+            document.getElementById('question-text').textContent = q.q;
+            document.getElementById('timer-text').textContent = timeLeft;
+
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-item';
+                btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                btn.onclick = () => selectOption(idx);
+                container.appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-text').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    highlightAnswers(-1);
+                    showExplanation("Waktu telah habis!");
+                }
+            }, 1000);
+        }
+
+        function selectOption(selectedIdx) {
+            clearInterval(timer);
+            const q = activeQuestions[currentIndex];
+            
+            if (selectedIdx === q.correct) {
+                score += 20;
+                correctCount++;
+            }
+
+            highlightAnswers(selectedIdx);
+            showExplanation(q.exp);
+        }
+
+        function highlightAnswers(selectedIdx) {
+            const items = document.getElementById('options-container').children;
+            const q = activeQuestions[currentIndex];
+
+            for (let i = 0; i < items.length; i++) {
+                items[i].disabled = true;
+                if (i === q.correct) {
+                    items[i].classList.add('correct');
+                } else if (i === selectedIdx) {
+                    items[i].classList.add('wrong');
+                }
+            }
+        }
+
+        function showExplanation(text) {
+            const expBox = document.getElementById('explanation-box');
+            document.getElementById('explanation-text').textContent = text;
+            expBox.classList.remove('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < activeQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            const accuracy = Math.round((correctCount / activeQuestions.length) * 100);
+
+            document.getElementById('res-score').textContent = score;
+            document.getElementById('res-accuracy').textContent = `${accuracy}%`;
+        }
+
+        function shareToWhatsApp() {
+            const accuracy = Math.round((correctCount / activeQuestions.length) * 100);
+            const text = `Halo! Saya *${playerName}* baru saja menyelesaikan Kuis CyberTech!\n\n` +
+                         `🎯 *Skor Akhir:* ${score}\n` +
+                         `📊 *Akurasi:* ${accuracy}%\n` +
+                         `⚡ *Mode:* ${currentDifficulty.toUpperCase()}\n\n` +
+                         `Coba kalahkan skor saya! 🚀`;
+
+            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+            window.open(waUrl, '_blank');
+        }
+
+        function resetGame() {
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
