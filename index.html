@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Teknologi & AI - Cyber Edition</title>
+    <!-- STREAMING_CHUNK:Loading External CSS Frameworks and Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* STREAMING_CHUNK:Defining Custom Styles and Themes */
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #080c14;
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        }
+
+        .font-tech {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+        }
+
+        .glow-purple {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.35);
+        }
+
+        .cyber-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            clip-path: polygon(
+                0 0, 
+                calc(100% - 20px) 0, 
+                100% 20px, 
+                100% 100%, 
+                20px 100%, 
+                0 calc(100% - 20px)
+            );
+        }
+
+        .cyber-btn {
+            clip-path: polygon(
+                0 0,
+                calc(100% - 12px) 0,
+                100% 12px,
+                100% 100%,
+                12px 100%,
+                0 calc(100% - 12px)
+            );
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cyber-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .cyber-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #06b6d4;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-3 sm:p-6 relative overflow-x-hidden">
+
+    <!-- Ambient Overlay Grid -->
+    <div class="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-slate-950/60 to-slate-950"></div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-3xl cyber-card rounded-xl p-4 sm:p-8 relative z-10 shadow-2xl border border-cyan-500/30">
+        
+        <!-- Header Banner -->
+        <header class="flex justify-between items-center pb-4 mb-6 border-b border-cyan-500/20">
+            <div class="flex items-center space-x-3">
+                <div class="p-2.5 bg-cyan-950/80 rounded-lg border border-cyan-500/50 text-cyan-400 glow-cyan">
+                    <i class="fa-solid fa-microchip text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-tech text-lg sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">
+                        KUIS TEKNOLOGI & AI
+                    </h1>
+                    <p class="text-xs text-slate-400 tracking-wider">CYBER INTELLECT SYSTEM v2.0</p>
+                </div>
+            </div>
+
+            <!-- Sound Toggle Button -->
+            <button id="sound-toggle-btn" onclick="toggleSound()" class="px-3 py-2 bg-slate-800/80 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 rounded-lg text-sm flex items-center gap-2 transition-all">
+                <i id="sound-icon" class="fa-solid fa-volume-high"></i>
+                <span class="hidden sm:inline text-xs font-tech">AUDIO</span>
+            </button>
+        </header>
+
+        <!-- STREAMING_CHUNK: Start Screen Section -->
+        <section id="start-screen" class="space-y-6 text-center py-4">
+            <div class="relative inline-block">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-full bg-cyan-950/50 border-2 border-cyan-400/50 flex items-center justify-center text-cyan-300 text-4xl sm:text-5xl glow-cyan">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full animate-ping"></div>
+            </div>
+
+            <div class="space-y-2">
+                <h2 class="font-tech text-2xl sm:text-3xl font-extrabold text-white">UJI PENGETAHUAN TEKNOLOGI</h2>
+                <p class="text-slate-300 text-sm sm:text-base max-w-lg mx-auto">
+                    Jawab <span class="text-cyan-400 font-bold">15 Pertanyaan</span> seputar Artificial Intelligence, Hardware, Cloud, dan IoT. Selesaikan sebelum timer habis!
+                </p>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="grid grid-cols-3 gap-3 max-w-md mx-auto text-center py-2">
+                <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-700/60">
+                    <i class="fa-solid fa-list-check text-cyan-400 mb-1"></i>
+                    <p class="text-xs text-slate-400">Soal</p>
+                    <p class="font-tech text-base sm:text-lg font-bold text-white">15</p>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-700/60">
+                    <i class="fa-solid fa-hourglass-half text-indigo-400 mb-1"></i>
+                    <p class="text-xs text-slate-400">Waktu/Soal</p>
+                    <p class="font-tech text-base sm:text-lg font-bold text-white">20s</p>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-700/60">
+                    <i class="fa-solid fa-trophy text-amber-400 mb-1"></i>
+                    <p class="text-xs text-slate-400">Poin Maks</p>
+                    <p class="font-tech text-base sm:text-lg font-bold text-white">150</p>
+                </div>
+            </div>
+
+            <button onclick="startGame()" class="cyber-btn w-full max-w-md py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-tech font-bold text-lg rounded tracking-wider shadow-lg shadow-cyan-500/25">
+                MULAI SIMULASI <i class="fa-solid fa-bolt ml-2"></i>
+            </button>
+        </section>
+
+        <!-- STREAMING_CHUNK: Quiz Screen Section -->
+        <section id="quiz-screen" class="hidden space-y-6">
+            <!-- Progress & Stats Header -->
+            <div class="flex flex-wrap justify-between items-center gap-3 bg-slate-900/90 p-3 sm:p-4 rounded-lg border border-slate-700/60">
+                <div class="flex items-center space-x-2">
+                    <span class="font-tech text-xs sm:text-sm text-cyan-400 font-semibold uppercase tracking-wider">PERTANYAAN</span>
+                    <span id="question-tracker" class="font-tech text-sm sm:text-base font-bold text-white bg-slate-800 px-2.5 py-1 rounded border border-slate-700">1 / 15</span>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <!-- Live Score -->
+                    <div class="flex items-center space-x-1.5 text-amber-400">
+                        <i class="fa-solid fa-award text-sm"></i>
+                        <span id="live-score" class="font-tech font-bold text-base sm:text-lg">0</span>
+                    </div>
+
+                    <!-- Countdown Timer -->
+                    <div class="flex items-center space-x-2 bg-slate-800/80 px-3 py-1 rounded-md border border-slate-700">
+                        <i id="timer-icon" class="fa-solid fa-stopwatch text-cyan-400 animate-pulse"></i>
+                        <span id="timer-display" class="font-tech font-bold text-lg sm:text-xl text-cyan-300">20</span>
+                        <span class="text-xs text-slate-400">s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Progress Bar -->
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                <div id="timer-bar" class="bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-500 h-full w-full rounded-full transition-all duration-1000 linear"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-slate-900/50 p-4 sm:p-6 rounded-xl border border-slate-800 space-y-3">
+                <p id="question-text" class="text-lg sm:text-2xl font-semibold text-white leading-relaxed">
+                    Loading Pertanyaan...
+                </p>
+            </div>
+
+            <!-- Options Grid -->
+            <div id="options-container" class="grid grid-cols-1 gap-3">
+                <!-- Dynamic Options Inject Here -->
+            </div>
+
+            <!-- Review Feedback Box -->
+            <div id="feedback-box" class="hidden p-4 rounded-xl border transition-all duration-300">
+                <div class="flex items-center space-x-2 font-tech font-bold text-base mb-1" id="feedback-title">
+                    <i id="feedback-icon" class="fa-solid"></i>
+                    <span id="feedback-status">STATUS</span>
+                </div>
+                <p id="feedback-detail" class="text-sm text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <!-- Next Action Button -->
+            <button id="next-btn" onclick="nextQuestion()" class="hidden cyber-btn w-full py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-tech font-bold text-base rounded tracking-wider shadow-lg shadow-indigo-500/25">
+                PERTANYAAN SELANJUTNYA <i class="fa-solid fa-chevron-right ml-2"></i>
+            </button>
+        </section>
+
+        <!-- STREAMING_CHUNK: Result Screen Section -->
+        <section id="result-screen" class="hidden space-y-6 py-2">
+            <div class="text-center space-y-3">
+                <div class="inline-block p-4 bg-cyan-950/80 rounded-full border border-cyan-500/40 text-cyan-400 glow-cyan mb-1">
+                    <i id="result-badge-icon" class="fa-solid fa-trophy text-4xl sm:text-5xl"></i>
+                </div>
+                <h2 id="result-title" class="font-tech text-2xl sm:text-3xl font-extrabold text-white">EVALUASI SELESAI</h2>
+                <p id="result-subtitle" class="text-slate-300 text-sm sm:text-base">Performa komputasi dan pemahaman AI Anda telah dianalisis.</p>
+            </div>
+
+            <!-- Dashboard Stats Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-slate-900/90 p-3.5 rounded-lg border border-slate-700/80 text-center space-y-1">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Skor Total</p>
+                    <p id="final-score" class="font-tech text-2xl sm:text-3xl font-bold text-cyan-400">0</p>
+                    <p class="text-[10px] text-slate-500">Maksimal 150</p>
+                </div>
+                <div class="bg-slate-900/90 p-3.5 rounded-lg border border-slate-700/80 text-center space-y-1">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Akurasi</p>
+                    <p id="final-accuracy" class="font-tech text-2xl sm:text-3xl font-bold text-emerald-400">0%</p>
+                    <p id="accuracy-label" class="text-[10px] text-slate-500">0 dari 15 Benar</p>
+                </div>
+                <div class="bg-slate-900/90 p-3.5 rounded-lg border border-slate-700/80 text-center space-y-1">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Jawaban Salah</p>
+                    <p id="final-wrong" class="font-tech text-2xl sm:text-3xl font-bold text-rose-400">0</p>
+                    <p class="text-[10px] text-slate-500">Koreksi Diperlukan</p>
+                </div>
+                <div class="bg-slate-900/90 p-3.5 rounded-lg border border-slate-700/80 text-center space-y-1">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Waktu Habis</p>
+                    <p id="final-timeout" class="font-tech text-2xl sm:text-3xl font-bold text-amber-400">0</p>
+                    <p class="text-[10px] text-slate-500">Terlewati</p>
+                </div>
+            </div>
+
+            <!-- Detailed Answer Review List -->
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-tech text-sm sm:text-base font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-cyan-400"></i> Review Lembar Jawaban
+                    </h3>
+                    <span class="text-xs text-slate-400">Klik untuk evaluasi</span>
+                </div>
+
+                <div id="review-list" class="max-h-60 overflow-y-auto space-y-2 pr-1">
+                    <!-- Dynamic Answer Review injected via JS -->
+                </div>
+            </div>
+
+            <button onclick="resetGame()" class="cyber-btn w-full py-3.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-tech font-bold text-base rounded tracking-wider shadow-lg shadow-cyan-500/25">
+                ULANGI SIMULASI <i class="fa-solid fa-rotate-right ml-2"></i>
+            </button>
+        </section>
+    </main>
+
+    <!-- STREAMING_CHUNK: JavaScript Logic Engine Initialization -->
+    <script>
+        // Data Pertanyaan dari User Request
+        const questionsData = [
+            {
+                q: "Apa kepanjangan dari AI?",
+                options: ["Automatic Internet", "Artificial Intelligence", "Advanced Information", "Artificial Internet"],
+                correct: 1,
+                explanation: "AI singkatan dari Artificial Intelligence (Kecerdasan Buatan), yakni simulasi kecerdasan manusia dalam mesin."
+            },
+            {
+                q: "Apa fungsi utama AI?",
+                options: [
+                    "Membuat perangkat selalu menyala",
+                    "Membantu komputer melakukan tugas yang membutuhkan kecerdasan manusia",
+                    "Menggantikan semua perangkat elektronik",
+                    "Mempercepat koneksi internet"
+                ],
+                correct: 1,
+                explanation: "Tujuan utama AI adalah memungkinkan komputer atau sistem memproses informasi dan memecahkan masalah layaknya manusia."
+            },
+            {
+                q: "Manakah yang merupakan contoh AI?",
+                options: ["Kalkulator biasa", "Lampu meja", "Chatbot yang dapat menjawab pertanyaan", "Buku tulis"],
+                correct: 2,
+                explanation: "Chatbot modern menggunakan pemrosesan bahasa alami (NLP) yang merupakan salah satu cabang dari AI."
+            },
+            {
+                q: "Apa yang dimaksud dengan Machine Learning?",
+                options: [
+                    "Mesin yang dapat berjalan sendiri",
+                    "Teknologi yang memungkinkan komputer belajar dari data",
+                    "Cara memperbaiki mesin rusak",
+                    "Program untuk membuat komputer lebih besar"
+                ],
+                correct: 1,
+                explanation: "Machine Learning (ML) adalah cabang AI yang fokus pada penggunaan data untuk melatih algoritma agar bisa belajar secara mandiri."
+            },
+            {
+                q: "Perangkat yang digunakan untuk memasukkan teks ke komputer disebut...",
+                options: ["Monitor", "Keyboard", "Speaker", "Printer"],
+                correct: 1,
+                explanation: "Keyboard adalah perangkat input utama untuk memasukkan karakter, kata, dan perintah teks ke dalam komputer."
+            },
+            {
+                q: "Apa fungsi utama RAM pada komputer?",
+                options: [
+                    "Menyimpan data sementara saat komputer bekerja",
+                    "Mencetak dokumen",
+                    "Menghubungkan komputer ke internet",
+                    "Menampilkan gambar"
+                ],
+                correct: 0,
+                explanation: "RAM (Random Access Memory) berfungsi menyimpan data sementara yang sedang dibutuhkan oleh prosesor saat program berjalan."
+            },
+            {
+                q: "Apa kepanjangan dari CPU?",
+                options: ["Central Processing Unit", "Computer Program Utility", "Central Program User", "Computer Processing Utility"],
+                correct: 0,
+                explanation: "CPU (Central Processing Unit) sering disebut sebagai 'otak' komputer yang mengeksekusi instruksi program."
+            },
+            {
+                q: "Teknologi yang memungkinkan komputer mengenali wajah manusia disebut...",
+                options: ["Facial Recognition", "Cloud Storage", "Web Hosting", "File Sharing"],
+                correct: 0,
+                explanation: "Facial Recognition menggunakan visi komputer (computer vision) dan AI untuk mengidentifikasi wajah dari gambar/video."
+            },
+            {
+                q: "Apa yang dimaksud dengan Cloud Computing?",
+                options: [
+                    "Komputer yang berbentuk awan",
+                    "Penggunaan sumber daya komputasi melalui internet",
+                    "Komputer yang hanya digunakan saat hujan",
+                    "Sistem untuk membuat gambar awan"
+                ],
+                correct: 1,
+                explanation: "Cloud Computing memungkinkan akses ke layanan komputasi (server, penyimpanan, database) melalui jaringan internet."
+            },
+            {
+                q: "Manakah yang termasuk contoh teknologi Internet of Things (IoT)?",
+                options: ["Jam tangan pintar yang terhubung ke internet", "Pensil kayu", "Buku cetak", "Kursi biasa"],
+                correct: 0,
+                explanation: "IoT mengacu pada jaringan objek fisik yang terhubung ke internet untuk saling bertukar data, seperti Smartwatch."
+            },
+            {
+                q: "Apa fungsi chatbot AI?",
+                options: [
+                    "Mengisi baterai perangkat",
+                    "Berinteraksi dan memberikan respons kepada pengguna",
+                    "Membersihkan komputer",
+                    "Memperbaiki kabel listrik"
+                ],
+                correct: 1,
+                explanation: "Chatbot AI dirancang untuk mensimulasikan percakapan manusia dan memberikan jawaban otomatis secara terstruktur."
+            },
+            {
+                q: "Apa yang dimaksud dengan prompt dalam penggunaan AI generatif?",
+                options: [
+                    "Perintah atau instruksi yang diberikan kepada AI",
+                    "Nama komputer",
+                    "Jenis virus komputer",
+                    "Alat untuk mencetak dokumen"
+                ],
+                correct: 0,
+                explanation: "Prompt adalah teks input berupa instruksi/pertanyaan yang diberikan pengguna agar AI generatif menghasilkan respon."
+            },
+            {
+                q: "Teknologi AI yang dapat membuat gambar berdasarkan deskripsi teks disebut...",
+                options: ["Text-to-Image AI", "Calculator AI", "File Manag
