@@ -1,0 +1,108 @@
+<!DOCTYPE html> <html lang="id"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="description" content="Quiz Teknologi dan AI - 15 soal"> <meta name="theme-color" content="#2563eb"> <title>Quiz Teknologi & AI 🤖</title> <style> * { box-sizing: border-box; margin: 0; padding: 0; } body { min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: radial-gradient(circle at top left, #3b82f6, transparent 35%), radial-gradient(circle at bottom right, #7c3aed, transparent 35%), linear-gradient(135deg, #0f172a, #1e1b4b); color: white; display: flex; justify-content: center; align-items: center; padding: 20px; } .container { width: 100%; max-width: 720px; } .card { background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-radius: 25px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,.35); } .hidden { display: none !important; } /* START */ .start { text-align: center; } .logo { font-size: 75px; margin-bottom: 15px; } .start h1 { font-size: 34px; margin-bottom: 12px; } .start p { color: #dbeafe; line-height: 1.6; margin-bottom: 25px; } .start-button, .restart-button { border: none; border-radius: 14px; padding: 15px 30px; font-size: 17px; font-weight: bold; color: white; background: linear-gradient(135deg, #22c55e, #16a34a); cursor: pointer; transition: .2s; } .start-button:hover, .restart-button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(34,197,94,.3); } /* QUIZ */ .quiz-title { text-align: center; font-size: 28px; margin-bottom: 25px; } .top-info { display: flex; justify-content: space-between; color: #dbeafe; font-size: 14px; margin-bottom: 8px; } .progress-bg { width: 100%; height: 10px; background: rgba(255,255,255,.15); border-radius: 20px; overflow: hidden; margin-bottom: 30px; } .progress { height: 100%; width: 0%; background: linear-gradient(90deg, #22c55e, #4ade80); transition: width .3s ease; } .question { font-size: 22px; line-height: 1.5; font-weight: bold; margin-bottom: 20px; } .answers { display: grid; gap: 12px; } .answer { width: 100%; border: 2px solid rgba(255,255,255,.15); border-radius: 14px; background: rgba(255,255,255,.08); color: white; padding: 15px; font-size: 16px; text-align: left; cursor: pointer; transition: .2s; } .answer:hover:not(:disabled) { background: rgba(255,255,255,.17); transform: translateX(4px); } .answer:disabled { cursor: default; } .answer.correct { background: #15803d; border-color: #4ade80; } .answer.wrong { background: #b91c1c; border-color: #f87171; } .next-button { display: none; width: 100%; border: none; border-radius: 14px; padding: 15px; margin-top: 20px; background: #2563eb; color: white; font-size: 17px; font-weight: bold; cursor: pointer; } .next-button:hover { background: #1d4ed8; } /* RESULT */ .result { text-align: center; } .result-icon { font-size: 75px; margin-bottom: 10px; } .result h2 { font-size: 32px; margin-bottom: 10px; } .final-score { font-size: 55px; font-weight: bold; color: #4ade80; margin: 15px 0; } .result-message { color: #dbeafe; font-size: 17px; line-height: 1.5; margin-bottom: 25px; } /* FOOTER */ .footer { text-align: center; color: rgba(255,255,255,.55); font-size: 12px; margin-top: 18px; } @media(max-width: 600px) { body { padding: 12px; } .card { padding: 20px; border-radius: 20px; } .start h1 { font-size: 27px; } .quiz-title { font-size: 24px; } .question { font-size: 19px; } .answer { font-size: 15px; } } </style> </head> <body> <div class="container">
+<div class="card">
+
+  <!-- HALAMAN AWAL -->
+  <section id="startScreen" class="start">
+
+    <div class="logo">🤖</div>
+
+    <h1>Quiz Teknologi & AI</h1>
+
+    <p>
+      Uji pengetahuanmu dengan 15 soal tentang
+      teknologi, komputer, internet, dan
+      Artificial Intelligence.
+    </p>
+
+    <button
+      class="start-button"
+      onclick="startQuiz()">
+      🚀 Mulai Quiz
+    </button>
+
+  </section>
+
+
+  <!-- HALAMAN QUIZ -->
+  <section id="quizScreen" class="hidden">
+
+    <h1 class="quiz-title">
+      🤖 Quiz Teknologi & AI
+    </h1>
+
+    <div class="top-info">
+
+      <span id="questionNumber">
+        Soal 1 dari 15
+      </span>
+
+      <span id="scoreText">
+        Skor: 0
+      </span>
+
+    </div>
+
+    <div class="progress-bg">
+      <div
+        id="progress"
+        class="progress">
+      </div>
+    </div>
+
+    <div
+      id="question"
+      class="question">
+    </div>
+
+    <div
+      id="answers"
+      class="answers">
+    </div>
+
+    <button
+      id="nextButton"
+      class="next-button"
+      onclick="nextQuestion()">
+      Soal Berikutnya →
+    </button>
+
+  </section>
+
+
+  <!-- HALAMAN HASIL -->
+  <section id="resultScreen" class="result hidden">
+
+    <div
+      id="resultIcon"
+      class="result-icon">
+      🏆
+    </div>
+
+    <h2>Quiz Selesai!</h2>
+
+    <div
+      id="finalScore"
+      class="final-score">
+      0 / 15
+    </div>
+
+    <p
+      id="resultMessage"
+      class="result-message">
+    </p>
+
+    <button
+      class="restart-button"
+      onclick="restartQuiz()">
+      🔄 Main Lagi
+    </button>
+
+  </section>
+
+</div>
+
+<div class="footer">
+  Quiz Teknologi & AI • Dibuat dengan HTML, CSS & JavaScript
+</div>
+
+</div> <script> const questions = [ { question: "Apa kepanjangan dari AI?", answers: [ "Automatic Internet", "Artificial Intelligence", "Advanced Information", "Artificial Internet" ], correct: 1 }, { question: "Manakah yang termasuk contoh AI?", answers: [ "Kalkulator biasa", "Lampu LED", "Chatbot", "Kabel USB" ], correct: 2 }, { question: "Apa fungsi utama CPU pada komputer?", answers: [ "Menyimpan file", "Memproses instruksi", "Menampilkan gambar", "Menghasilkan suara" ], correct: 1 }, { question: "Apa kepanjangan dari RAM?", answers: [ "Random Access Memory", "Rapid Access Machine", "Read All Memory", "Random Application Module" ], correct: 0 }, { question: "Teknologi yang memungkinkan komputer mengenali wajah disebut...", answers: [ "Face Recognition", "Screen Sharing", "Cloud Storage", "Data Mining" ], correct: 0 }, { question: "Apa yang dimaksud dengan Machine Learning?", answers: [ "Mesin yang bisa berjalan sendiri", "Metode agar komputer belajar dari data", "Cara memperbaiki komputer", "Program untuk membuat robot" ], correct: 1 }, { question: "Manakah yang merupakan contoh penyimpanan cloud?", answers: [ "Google Drive", "Keyboard", "Monitor", "Mouse" ], correct: 0 }, { question: "Apa fungsi utama chatbot AI?", answers: [ "Mencetak dokumen", "Berkomunikasi dan menjawab pertanyaan pengguna", "Mengisi baterai HP", "Memperbesar layar" ], correct: 1 }, { question: "Apa kepanjangan dari IoT?", answers: [ "Internet of Things", "Information of Technology", "Internet of Technology", "Input of Things" ], correct: 0 }, { question: "Robot yang dapat bergerak dan mengambil keputusan berdasarkan sensor merupakan penerapan...", answers: [ "Robotika", "Fotografi", "Tipografi", "Animasi" ], correct: 0 }, { question: "Apa yang dimaksud dengan prompt dalam AI generatif?", answers: [ "Perintah atau instruksi yang diberikan kepada AI", "Jenis komputer", "Nama prosesor", "Sistem operasi" ], correct: 0 }, { question: "Manakah yang merupakan contoh AI generatif?", answers: [ "AI yang membuat teks atau gambar berdasarkan instruksi", "Kabel HDMI", "Flashdisk", "Keyboard mekanik" ], correct: 0 }, { question: "Apa kegunaan cybersecurity?", answers: [ "Mempercepat internet", "Melindungi sistem dan data dari ancaman digital", "Membuat desain grafis", "Mengedit video" ], correct: 1 }, { question: "Jika AI memberikan informasi yang salah tetapi terdengar meyakinkan, kondisi ini sering disebut...", answers: [ "Rendering", "Hallucination", "Streaming", "Encryption" ], correct: 1 }, { question: "Apa hal penting saat menggunakan AI?", answers: [ "Selalu percaya semua jawaban AI", "Tidak perlu memeriksa informasi", "Menggunakan AI secara bijak dan memverifikasi informasi penting", "Memberikan semua data pribadi kepada AI" ], correct: 2 } ]; let currentQuestion = 0; let score = 0; let answered = false; const startScreen = document.getElementById("startScreen"); const quizScreen = document.getElementById("quizScreen"); const resultScreen = document.getElementById("resultScreen"); const questionElement = document.getElementById("question"); const answersElement = document.getElementById("answers"); const nextButton = document.getElementById("nextButton"); const questionNumber = document.getElementById("questionNumber"); const scoreText = document.getElementById("scoreText"); const progress = document.getElementById("progress"); function startQuiz() { currentQuestion = 0; score = 0; startScreen.classList.add("hidden"); resultScreen.classList.add("hidden"); quizScreen.classList.remove("hidden"); showQuestion(); } function showQuestion() { answered = false; nextButton.style.display = "none"; const q = questions[currentQuestion]; questionNumber.textContent = `Soal ${currentQuestion + 1} dari ${questions.length}`; scoreText.textContent = `Skor: ${score}`; progress.style.width = `${(currentQuestion / questions.length) * 100}%`; questionElement.textContent = q.question; answersElement.innerHTML = ""; q.answers.forEach((answer, index) => { const button = document.createElement("button"); button.className = "answer"; button.textContent = `${String.fromCharCode(65 + index)}. ${answer}`; button.onclick = () => selectAnswer(index, button); answersElement.appendChild(button); }); } function selectAnswer(index, selectedButton) { if (answered) return; answered = true; const correctAnswer = questions[currentQuestion].correct; const buttons = document.querySelectorAll(".answer"); buttons.forEach((button, i) => { button.disabled = true; if (i === correctAnswer) { button.classList.add("correct"); } }); if (index === correctAnswer) { score++; } else { selectedButton.classList.add("wrong"); } scoreText.textContent = `Skor: ${score}`; nextButton.style.display = "block"; if (currentQuestion === questions.length - 1) { nextButton.textContent = "🏆 Lihat Hasil"; } } function nextQuestion() { currentQuestion++; if (currentQuestion < questions.length) { showQuestion(); } else { showResult(); } } function showResult() { quizScreen.classList.add("hidden"); resultScreen.classList.remove("hidden"); progress.style.width = "100%"; document.getElementById("finalScore") .textContent = `${score} / ${questions.length}`; const icon = document.getElementById("resultIcon"); const message = document.getElementById("resultMessage"); if (score >= 13) { icon.textContent = "🧠"; message.textContent = "Luar biasa! Kamu adalah Ahli Teknologi!"; } else if (score >= 10) { icon.textContent = "🤖"; message.textContent = "Hebat! Kamu sangat memahami teknologi dan AI!"; } else if (score >= 7) { icon.textContent = "💻"; message.textContent = "Lumayan! Terus belajar agar semakin jago!"; } else if (score >= 4) { icon.textContent = "🔧"; message.textContent = "Tidak apa-apa. Kamu masih dalam tahap belajar!"; } else { icon.textContent = "🚀"; message.textContent = "Yuk belajar teknologi dan AI lebih banyak lagi!"; } } function restartQuiz() { currentQuestion = 0; score = 0; resultScreen.classList.add("hidden"); quizScreen.classList.remove("hidden"); showQuestion(); } </script> </body> </html>
